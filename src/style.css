@@ -1,0 +1,27 @@
+html,body{
+    background-color: gray;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#content{
+    border: solid;
+}
+
+
+.project{
+
+}
+
+.toDo{
+    background-color: aqua;
+
+}
+
+
