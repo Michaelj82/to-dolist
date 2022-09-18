@@ -1,18 +1,31 @@
 import './style.css'
 
+const header = document.createElement('div');
+header.setAttribute('id', 'header');
+document.body.appendChild(header)
+
 const content = document.createElement('div');
 content.setAttribute('id', 'content');
 document.body.appendChild(content)
 
 
 
+const newToDoButton = document.createElement('button');
+newToDoButton.innerHTML = 'asdf'
+newToDoButton.onclick = function(){
+    alert('bruh')
+}
+header.appendChild(newToDoButton)
+
+
 let projectList = [];
-console.log('bruh')
 
 
 //create from projectList
 function makeAllProjects(list, container){
+
     container.innerHTML = ''
+
 
     for (let i=0; i < list.length; i++){
         let project = list[i]
@@ -20,7 +33,25 @@ function makeAllProjects(list, container){
         let projectHTML = document.createElement('div');
         projectHTML.setAttribute('class', 'project');
         projectHTML.style.backgroundColor = project.color
+
+        let expandButton = document.createElement('button');
+        expandButton.innerHTML = 'Expand'
+        expandButton.onclick = function () {
+            expandableFunction(project)
+        };
+
+
+        let dueDate = document.createElement('div');
+        dueDate.textContent = 'Date due: ' + project.duedate;
+
+        let description = document.createElement('div');
+        description.textContent = project.description
+
+
         projectHTML.textContent = project.name
+        projectHTML.appendChild(description)
+        projectHTML.appendChild(dueDate)
+        projectHTML.appendChild(expandButton)
 
         if (project.expanded == true){
 
@@ -30,15 +61,41 @@ function makeAllProjects(list, container){
                 let toDoHTML = document.createElement('div');
                 toDoHTML.setAttribute('class', 'toDo');
                 toDoHTML.textContent = toDo.name
+                toDoHTML.style.backgroundColor = toDo.color
+
+                let checkbox = document.createElement('input');
+                checkbox.setAttribute('type', 'checkbox');
+                if (toDo.completed == false){
+                    toDoHTML.innerHTML = toDo.name
+                    checkbox.checked = false
+                }else if (toDo.completed == true){
+                    toDoHTML.innerHTML = toDo.name.strike()
+                    checkbox.checked = true
+                }
+
+                checkbox.onclick = function() {
+                    if (toDo.completed == false){
+                        toDoHTML.innerHTML = toDo.name.strike()
+                        toDoHTML.appendChild(checkbox)
+                        toDo.completed = true
+                    }else if (toDo.completed == true){
+                        toDoHTML.innerHTML = toDo.name
+                        toDoHTML.appendChild(checkbox)
+                        toDo.completed = false
+
+
+                    }
+                }
+
+
+
+                toDoHTML.appendChild(checkbox)
+
+
                 projectHTML.appendChild(toDoHTML)
 
 
             }
-
-
-
-            console.log(project.toDos)
-
         }
     
     
@@ -105,10 +162,10 @@ const deleteable = (state) => ({
 
 //factory function for creating containers
 
-const project = (name, duedate, color, expanded, toDos) => {
+const project = (name, duedate, color, expanded, toDos, description) => {
     let state = {
         toDos: toDos,
-
+        description: description,
         name: name,
         duedate: duedate,
         color: color,
@@ -119,7 +176,7 @@ const project = (name, duedate, color, expanded, toDos) => {
 
 
     return Object.assign(
-        {name, duedate, color, content, expanded, toDos},
+        {name, duedate, color, content, expanded, toDos, description},
         createable(state),
         addable(state),
         expandable(state),
@@ -133,23 +190,19 @@ const project = (name, duedate, color, expanded, toDos) => {
 
 }
 
-const toDo = (name, completed, color, expanded, information) =>{
+const toDo = (name, completed, color) =>{
 
     let state = {
-        information: information,
-
         name: name,
         color: color,
         completed: completed,
-        expanded: expanded,
 
 
     }
 
     return Object.assign(
-        {name, completed, color, expanded, content, information},
+        {name, completed, color},
         createable(state),
-        expandable(state),
         // deleteable(state),
     )
 
@@ -162,15 +215,13 @@ const toDo = (name, completed, color, expanded, information) =>{
 
 
 
-let ProjectOne = project('Complete ToDolist Project', '9-20-2022', 'green', false, []);
+let ProjectOne = project('Complete ToDolist Project', '9-20-2022', 'green', false, [], 'Here is the description');
 ProjectOne.create(content)
 
-let projectOne = toDo('start webpack', false, 'red', false, '')
-projectOne.information = 'bruh'
+let projectOne = toDo('start webpack', false, 'red')
 ProjectOne.add(projectOne)
 
-let projectTwo = toDo('make logic', false, 'yellow', false, '')
-projectTwo.information = 'asdf'
+let projectTwo = toDo('make logic', false, 'yellow')
 ProjectOne.add(projectTwo)
 
 
@@ -178,15 +229,13 @@ ProjectOne.add(projectTwo)
 
 
 
-let ProjectTwo = project('Daily Goals', '9-20-2022', 'blue', false, []);
+let ProjectTwo = project('Daily Goals', '9-20-2022', 'blue', false, [], 'Here is another description');
 ProjectTwo.create(content)
 
-let toDoOne = toDo('start coding', false, 'blue', false, '')
-toDoOne.information = 'bruh'
+let toDoOne = toDo('start coding', false, 'aqua')
 ProjectTwo.add(toDoOne)
 
-let toDoTwo = toDo('go to bed', false, 'green', false, '')
-toDoTwo.information = 'asdf'
+let toDoTwo = toDo('go to bed', false, 'orange')
 ProjectTwo.add(toDoTwo)
 
 

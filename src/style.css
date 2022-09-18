@@ -14,13 +14,20 @@ html,body{
     border: solid;
 }
 
+#header{
+    border: solid;
+    border-color: red;
+}
+
 
 .project{
-
+    margin: 15px;
+    padding: 15px;
 }
 
 .toDo{
     background-color: aqua;
+    padding: 10px;
 
 }
 
