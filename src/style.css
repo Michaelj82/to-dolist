@@ -40,3 +40,13 @@ html,body{
 }
 
 
+
+
+#toDoForm{
+    border: solid;
+}
+
+.individualToDo{
+    border: solid;  
+    border-color: blueviolet;
+}

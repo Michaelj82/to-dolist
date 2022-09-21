@@ -109,6 +109,7 @@ export function createPopUp(container, createbutton){
     popup.setAttribute('id', 'popup')
 
     let removeButton = document.createElement('button')
+    removeButton.setAttribute('type', 'button')
     removeButton.setAttribute('id', 'removebutton')
     removeButton.textContent = 'Exit'
     removeButton.onclick = function(){
@@ -119,6 +120,16 @@ export function createPopUp(container, createbutton){
 
 
     let form = document.createElement('form')
+    form.onsubmit = function(){
+        container.removeChild(popup)
+        createbutton.disabled=false
+        console.log(form.elements)
+
+    }
+
+
+    function handleForm(event){event.preventDefault();}
+    form.addEventListener('submit', handleForm)
 
     let nameInput = document.createElement('input')
     nameInput.setAttribute('type', 'text')
@@ -135,23 +146,61 @@ export function createPopUp(container, createbutton){
     colorInput.setAttribute('placeholder', 'Color')
     colorInput.required = true
 
-    
+    let descriptionInput = document.createElement('textarea')
+    descriptionInput.setAttribute('placeholder', 'Description')
+    descriptionInput.required = true
 
-    let toDoForm = document.createElement('form')
+    
+    let submitButton = document.createElement('button')
+    submitButton.setAttribute('type', 'submit')
+    submitButton.textContent = 'Submit Here'
+
+
+
+
     let toDoButton = document.createElement('button')
     toDoButton.setAttribute('type', 'button')
     toDoButton.textContent = 'New To Do'
     toDoButton.onclick = function(){
-        let toDo = document.createElement('input')
-        toDo.setAttribute('type', 'text');
-        toDo.setAttribute('placeholder', 'to do name')
-        toDoForm.appendChild(toDo)
+
+        let toDoName = document.createElement('input')
+        toDoName.setAttribute('type', 'text');
+        toDoName.setAttribute('placeholder', 'to do name')
+        toDoName.required = true
+
+        let toDoColor = document.createElement('input')
+        toDoColor.setAttribute('type', 'color');
+        toDoColor.setAttribute('placeholder', 'Color')
+        toDoColor.required = true
+
+        let toDoDate = document.createElement('input')
+        toDoDate.setAttribute('type', 'date');
+        toDoDate.setAttribute('placeholder', 'Date')
+        toDoDate.required = true
+
+
+        let toDoRemove = document.createElement('button')
+        toDoRemove.setAttribute('type', 'button')
+        toDoRemove.textContent = 'Remove'
+        toDoRemove.onclick = function(){
+            form.removeChild(toDoName)
+            form.removeChild(toDoColor)
+            form.removeChild(toDoDate)
+            form.removeChild(toDoRemove)
+        }
+
+        form.removeChild(submitButton)
+        form.appendChild(toDoName)
+        form.appendChild(toDoColor)
+        form.appendChild(toDoDate)
+        form.appendChild(toDoRemove)
+        form.appendChild(submitButton)
 
     }
 
 
     
-    toDoForm.appendChild(toDoButton)
+    
 
     
 
@@ -159,7 +208,10 @@ export function createPopUp(container, createbutton){
     form.appendChild(nameInput)
     form.appendChild(dateInput)
     form.appendChild(colorInput)
-    form.appendChild(toDoForm)
+    form.appendChild(descriptionInput)
+    form.appendChild(toDoButton)
+
+    form.appendChild(submitButton)
 
     popup.appendChild(removeButton)
     popup.appendChild(form)
@@ -167,6 +219,5 @@ export function createPopUp(container, createbutton){
 }
 
 function turnIntoList(){
-    document.g
 
 }
