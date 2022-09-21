@@ -1,4 +1,9 @@
 import './style.css'
+import { expandableFunction } from './functions';
+import { createSelf } from './functions';
+import { deleteSelf } from './functions';
+import { projectList } from './functions';
+import { createPopUp } from './dommanipulation';
 
 const header = document.createElement('div');
 header.setAttribute('id', 'header');
@@ -13,146 +18,10 @@ document.body.appendChild(content)
 const newToDoButton = document.createElement('button');
 newToDoButton.innerHTML = 'asdf'
 newToDoButton.onclick = function(){
-    alert('bruh')
+    createPopUp(document.body, newToDoButton)
+    newToDoButton.disabled = true
 }
 header.appendChild(newToDoButton)
-
-
-let projectList = [];
-
-
-//create from projectList
-function makeAllProjects(list, container){
-
-    container.innerHTML = ''
-
-
-    for (let i=0; i < list.length; i++){
-        let project = list[i]
-
-        let projectHTML = document.createElement('div');
-        projectHTML.setAttribute('class', 'project');
-        projectHTML.style.backgroundColor = project.color
-
-        let expandButton = document.createElement('button');
-        expandButton.innerHTML = 'Expand'
-        expandButton.onclick = function () {
-            expandableFunction(project)
-        };
-
-
-        let dueDate = document.createElement('div');
-        dueDate.textContent = 'Date due: ' + project.duedate;
-
-        let description = document.createElement('div');
-        description.textContent = project.description
-
-        let deleteButton = document.createElement('button');
-        deleteButton.textContent = 'Delete'
-        deleteButton.onclick = function () {
-            deleteSelf(project, projectList)
-        }
-
-
-        projectHTML.textContent = project.name
-        projectHTML.appendChild(deleteButton)
-
-        projectHTML.appendChild(description)
-        projectHTML.appendChild(dueDate)
-        projectHTML.appendChild(expandButton)
-
-        if (project.expanded == true){
-
-
-
-            for (let i=0; i < project.toDos.length; i++){
-                let toDo = project.toDos[i];
-                let toDoHTML = document.createElement('div');
-                toDoHTML.setAttribute('class', 'toDo');
-                
-                let nameHTML = document.createElement('div');
-                nameHTML.textContent = toDo.name;
-                toDoHTML.appendChild(nameHTML)
-                
-                let dueDateHTML = document.createElement('div');
-                dueDateHTML.textContent = toDo.duedate
-                toDoHTML.appendChild(dueDateHTML)
-
-                toDoHTML.style.backgroundColor = toDo.color
-
-                let checkbox = document.createElement('input');
-                checkbox.setAttribute('type', 'checkbox');
-                if (toDo.completed == false){
-                    nameHTML.innerHTML = toDo.name
-                    checkbox.checked = false
-                }else if (toDo.completed == true){
-                    nameHTML.innerHTML = toDo.name.strike()
-                    checkbox.checked = true
-                }
-
-                checkbox.onclick = function() {
-                    if (toDo.completed == false){
-                        nameHTML.innerHTML = toDo.name.strike()
-                        toDoHTML.appendChild(checkbox)
-                        toDo.completed = true
-                    }else if (toDo.completed == true){
-                        nameHTML.innerHTML = toDo.name
-                        toDoHTML.appendChild(checkbox)
-                        toDo.completed = false
-
-
-                    }
-                }
-
-
-
-                toDoHTML.appendChild(checkbox)
-
-
-                projectHTML.appendChild(toDoHTML)
-
-
-            }
-        }
-    
-    
-        container.appendChild(projectHTML)
-
-    }
-
-}
-
-
-//expandable function
-function expandableFunction(item){
-    if (item.expanded == false){
-        for (let i=0; i < projectList.length; i++){
-            if (projectList[i] == item){
-                item.expanded = true;
-                projectList[i].expanded = true;
-            }
-        }
-        makeAllProjects(projectList, content)
-    }else if (item.expanded == true){
-        for (let i=0; i < projectList.length; i++){
-            if (projectList[i] == item){
-                item.expanded = false;
-                projectList[i].expanded = false;
-            }
-        }
-        makeAllProjects(projectList, content)
-    }
-}
-
-
-//create Project function
-function createSelf(project, container){
-
-
-    projectList.push(project)
-    makeAllProjects(projectList, container)
-
-}
 
 
 
@@ -172,13 +41,12 @@ const expandable = (state) => ({
 
 })
 
+const deleteable = (state) => ({
+    delete: () => deleteSelf(state, projectList)
+})
 
-//delete project function
-function deleteSelf(project, list){
-    projectList = list.filter(item => item !== project)
-    makeAllProjects(projectList, content)
-    
-}
+
+
 
 //factory function for creating containers
 
@@ -200,7 +68,7 @@ const project = (name, duedate, color, expanded, toDos, description) => {
         createable(state),
         addable(state),
         expandable(state),
-        // deleteable(state),
+        deleteable(state),
 
         //what it can do here
 
@@ -224,7 +92,6 @@ const toDo = (name, completed, color, duedate) =>{
     return Object.assign(
         {name, completed, color, duedate},
         createable(state),
-        // deleteable(state),
     )
 
 }
