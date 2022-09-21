@@ -47,8 +47,16 @@ function makeAllProjects(list, container){
         let description = document.createElement('div');
         description.textContent = project.description
 
+        let deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete'
+        deleteButton.onclick = function () {
+            deleteSelf(project, projectList)
+        }
+
 
         projectHTML.textContent = project.name
+        projectHTML.appendChild(deleteButton)
+
         projectHTML.appendChild(description)
         projectHTML.appendChild(dueDate)
         projectHTML.appendChild(expandButton)
@@ -56,30 +64,39 @@ function makeAllProjects(list, container){
         if (project.expanded == true){
 
 
+
             for (let i=0; i < project.toDos.length; i++){
                 let toDo = project.toDos[i];
                 let toDoHTML = document.createElement('div');
                 toDoHTML.setAttribute('class', 'toDo');
-                toDoHTML.textContent = toDo.name
+                
+                let nameHTML = document.createElement('div');
+                nameHTML.textContent = toDo.name;
+                toDoHTML.appendChild(nameHTML)
+                
+                let dueDateHTML = document.createElement('div');
+                dueDateHTML.textContent = toDo.duedate
+                toDoHTML.appendChild(dueDateHTML)
+
                 toDoHTML.style.backgroundColor = toDo.color
 
                 let checkbox = document.createElement('input');
                 checkbox.setAttribute('type', 'checkbox');
                 if (toDo.completed == false){
-                    toDoHTML.innerHTML = toDo.name
+                    nameHTML.innerHTML = toDo.name
                     checkbox.checked = false
                 }else if (toDo.completed == true){
-                    toDoHTML.innerHTML = toDo.name.strike()
+                    nameHTML.innerHTML = toDo.name.strike()
                     checkbox.checked = true
                 }
 
                 checkbox.onclick = function() {
                     if (toDo.completed == false){
-                        toDoHTML.innerHTML = toDo.name.strike()
+                        nameHTML.innerHTML = toDo.name.strike()
                         toDoHTML.appendChild(checkbox)
                         toDo.completed = true
                     }else if (toDo.completed == true){
-                        toDoHTML.innerHTML = toDo.name
+                        nameHTML.innerHTML = toDo.name
                         toDoHTML.appendChild(checkbox)
                         toDo.completed = false
 
@@ -155,10 +172,13 @@ const expandable = (state) => ({
 
 })
 
-const deleteable = (state) => ({
-    //do html once avilable
-    // delete : () =>
-})
+
+//delete project function
+function deleteSelf(project, list){
+    projectList = list.filter(item => item !== project)
+    makeAllProjects(projectList, content)
+    
+}
 
 //factory function for creating containers
 
@@ -190,18 +210,19 @@ const project = (name, duedate, color, expanded, toDos, description) => {
 
 }
 
-const toDo = (name, completed, color) =>{
+const toDo = (name, completed, color, duedate) =>{
 
     let state = {
         name: name,
         color: color,
         completed: completed,
+        duedate: duedate,
 
 
     }
 
     return Object.assign(
-        {name, completed, color},
+        {name, completed, color, duedate},
         createable(state),
         // deleteable(state),
     )
@@ -218,10 +239,10 @@ const toDo = (name, completed, color) =>{
 let ProjectOne = project('Complete ToDolist Project', '9-20-2022', 'green', false, [], 'Here is the description');
 ProjectOne.create(content)
 
-let projectOne = toDo('start webpack', false, 'red')
+let projectOne = toDo('start webpack', false, 'red', '9-24-2022')
 ProjectOne.add(projectOne)
 
-let projectTwo = toDo('make logic', false, 'yellow')
+let projectTwo = toDo('make logic', false, 'yellow', '9-24-2022')
 ProjectOne.add(projectTwo)
 
 
@@ -232,10 +253,10 @@ ProjectOne.add(projectTwo)
 let ProjectTwo = project('Daily Goals', '9-20-2022', 'blue', false, [], 'Here is another description');
 ProjectTwo.create(content)
 
-let toDoOne = toDo('start coding', false, 'aqua')
+let toDoOne = toDo('start coding', false, 'aqua', '9-24-2022')
 ProjectTwo.add(toDoOne)
 
-let toDoTwo = toDo('go to bed', false, 'orange')
+let toDoTwo = toDo('go to bed', false, 'orange', '9-24-2022')
 ProjectTwo.add(toDoTwo)
 
 
