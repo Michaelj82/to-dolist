@@ -1,6 +1,6 @@
-import { expandableFunction } from "./functions";
 import { deleteSelf } from "./functions";
 import { projectList } from "./functions";
+import {adjustFormElements} from "./functions"
 
 //create from projectList
 export function makeAllProjects(list, container){
@@ -18,8 +18,79 @@ export function makeAllProjects(list, container){
         let expandButton = document.createElement('button');
         expandButton.innerHTML = 'Expand'
         expandButton.onclick = function () {
-            expandableFunction(project)
+            if (project.expanded == true){
+
+
+
+                for (let i=0; i < project.toDos.length; i++){
+                    let toDo = project.toDos[i];
+                    let toDoHTML = document.createElement('div');
+                    toDoHTML.setAttribute('class', 'toDo');
+                    
+                    let nameHTML = document.createElement('div');
+                    nameHTML.textContent = toDo.name;
+                    toDoHTML.appendChild(nameHTML)
+                    
+                    let dueDateHTML = document.createElement('div');
+                    dueDateHTML.textContent = toDo.duedate
+                    toDoHTML.appendChild(dueDateHTML)
+    
+                    toDoHTML.style.backgroundColor = toDo.color
+    
+                    let checkbox = document.createElement('input');
+                    checkbox.setAttribute('type', 'checkbox');
+                    if (toDo.completed == false){
+                        nameHTML.innerHTML = toDo.name
+                        checkbox.checked = false
+                    }else if (toDo.completed == true){
+                        nameHTML.innerHTML = toDo.name.strike()
+                        checkbox.checked = true
+                    }
+    
+                    checkbox.onclick = function() {
+                        if (toDo.completed == false){
+                            nameHTML.innerHTML = toDo.name.strike()
+                            toDoHTML.appendChild(checkbox)
+                            toDo.completed = true
+                        }else if (toDo.completed == true){
+                            nameHTML.innerHTML = toDo.name
+                            toDoHTML.appendChild(checkbox)
+                            toDo.completed = false
+    
+    
+                        }
+                    }
+    
+    
+    
+                    toDoHTML.appendChild(checkbox)
+    
+    
+                    projectHTML.appendChild(toDoHTML)
+
+                    project.expanded = false
+    
+    
+                }
+            }else{
+
+                //MICHAEL CURRENTLY THE LAST ISSUE BEFORE STYLING!!
+
+                if (project.toDos.length > 0){
+                    for (let i = 0; i < project.toDos.length; i++){
+                        projectHTML.removeChild(projectHTML.lastElementChild)
+                    }
+                }
+                
+                project.expanded = true
+
+            }
+
         };
+
+        // if (project.expanded == true){
+            
+        // }
 
 
         let dueDate = document.createElement('div');
@@ -31,7 +102,7 @@ export function makeAllProjects(list, container){
         let deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete'
         deleteButton.onclick = function () {
-            deleteSelf(project, projectList)
+            deleteSelf(project, projectList, container)
         }
 
 
@@ -42,64 +113,13 @@ export function makeAllProjects(list, container){
         projectHTML.appendChild(dueDate)
         projectHTML.appendChild(expandButton)
 
-        if (project.expanded == true){
-
-
-
-            for (let i=0; i < project.toDos.length; i++){
-                let toDo = project.toDos[i];
-                let toDoHTML = document.createElement('div');
-                toDoHTML.setAttribute('class', 'toDo');
-                
-                let nameHTML = document.createElement('div');
-                nameHTML.textContent = toDo.name;
-                toDoHTML.appendChild(nameHTML)
-                
-                let dueDateHTML = document.createElement('div');
-                dueDateHTML.textContent = toDo.duedate
-                toDoHTML.appendChild(dueDateHTML)
-
-                toDoHTML.style.backgroundColor = toDo.color
-
-                let checkbox = document.createElement('input');
-                checkbox.setAttribute('type', 'checkbox');
-                if (toDo.completed == false){
-                    nameHTML.innerHTML = toDo.name
-                    checkbox.checked = false
-                }else if (toDo.completed == true){
-                    nameHTML.innerHTML = toDo.name.strike()
-                    checkbox.checked = true
-                }
-
-                checkbox.onclick = function() {
-                    if (toDo.completed == false){
-                        nameHTML.innerHTML = toDo.name.strike()
-                        toDoHTML.appendChild(checkbox)
-                        toDo.completed = true
-                    }else if (toDo.completed == true){
-                        nameHTML.innerHTML = toDo.name
-                        toDoHTML.appendChild(checkbox)
-                        toDo.completed = false
-
-
-                    }
-                }
-
-
-
-                toDoHTML.appendChild(checkbox)
-
-
-                projectHTML.appendChild(toDoHTML)
-
-
-            }
-        }
+        
     
     
         container.appendChild(projectHTML)
 
     }
+
 
 }
 
@@ -120,16 +140,20 @@ export function createPopUp(container, createbutton){
 
 
     let form = document.createElement('form')
+
+    function handleForm(event){event.preventDefault();}
+
+    form.addEventListener('submit', handleForm);
+
     form.onsubmit = function(){
         container.removeChild(popup)
         createbutton.disabled=false
         console.log(form.elements)
+        adjustFormElements(form.elements, container)
+        
 
     }
 
-
-    function handleForm(event){event.preventDefault();}
-    form.addEventListener('submit', handleForm)
 
     let nameInput = document.createElement('input')
     nameInput.setAttribute('type', 'text')
@@ -151,11 +175,9 @@ export function createPopUp(container, createbutton){
     descriptionInput.required = true
 
     
-    let submitButton = document.createElement('button')
+    let submitButton = document.createElement('input')
     submitButton.setAttribute('type', 'submit')
     submitButton.textContent = 'Submit Here'
-
-
 
 
     let toDoButton = document.createElement('button')
@@ -218,6 +240,3 @@ export function createPopUp(container, createbutton){
     container.appendChild(popup)
 }
 
-function turnIntoList(){
-
-}

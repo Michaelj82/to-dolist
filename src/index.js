@@ -1,9 +1,9 @@
 import './style.css'
-import { expandableFunction } from './functions';
 import { createSelf } from './functions';
 import { deleteSelf } from './functions';
 import { projectList } from './functions';
 import { createPopUp } from './dommanipulation';
+
 
 const header = document.createElement('div');
 header.setAttribute('id', 'header');
@@ -18,7 +18,7 @@ document.body.appendChild(content)
 const newToDoButton = document.createElement('button');
 newToDoButton.innerHTML = 'asdf'
 newToDoButton.onclick = function(){
-    createPopUp(document.body, newToDoButton)
+    createPopUp(content, newToDoButton)
     newToDoButton.disabled = true
 }
 header.appendChild(newToDoButton)
@@ -36,13 +36,10 @@ const addable = (state) => ({
     add: (object) => state.toDos.push(object)
 })
 
-const expandable = (state) => ({
-    expand : () => expandableFunction(state)
 
-})
 
 const deleteable = (state) => ({
-    delete: () => deleteSelf(state, projectList)
+    delete: () => deleteSelf(state, projectList, content)
 })
 
 
@@ -50,7 +47,7 @@ const deleteable = (state) => ({
 
 //factory function for creating containers
 
-const project = (name, duedate, color, expanded, toDos, description) => {
+export const project = (name, duedate, color, expanded, toDos, description) => {
     let state = {
         toDos: toDos,
         description: description,
@@ -67,7 +64,6 @@ const project = (name, duedate, color, expanded, toDos, description) => {
         {name, duedate, color, content, expanded, toDos, description},
         createable(state),
         addable(state),
-        expandable(state),
         deleteable(state),
 
         //what it can do here
@@ -78,7 +74,7 @@ const project = (name, duedate, color, expanded, toDos, description) => {
 
 }
 
-const toDo = (name, completed, color, duedate) =>{
+export const toDo = (name, completed, color, duedate) =>{
 
     let state = {
         name: name,
@@ -103,7 +99,7 @@ const toDo = (name, completed, color, duedate) =>{
 
 
 
-let ProjectOne = project('Complete ToDolist Project', '9-20-2022', 'green', false, [], 'Here is the description');
+let ProjectOne = project('Complete ToDolist Project', '9-20-2022', 'green', true, [], 'Here is the description');
 ProjectOne.create(content)
 
 let projectOne = toDo('start webpack', false, 'red', '9-24-2022')
@@ -117,7 +113,7 @@ ProjectOne.add(projectTwo)
 
 
 
-let ProjectTwo = project('Daily Goals', '9-20-2022', 'blue', false, [], 'Here is another description');
+let ProjectTwo = project('Daily Goals', '9-20-2022', 'blue', true, [], 'Here is another description');
 ProjectTwo.create(content)
 
 let toDoOne = toDo('start coding', false, 'aqua', '9-24-2022')
@@ -125,18 +121,6 @@ ProjectTwo.add(toDoOne)
 
 let toDoTwo = toDo('go to bed', false, 'orange', '9-24-2022')
 ProjectTwo.add(toDoTwo)
-
-
-ProjectOne.expand()
-
-ProjectTwo.expand()
-
-
-
-
-
-
-
 
 
 
