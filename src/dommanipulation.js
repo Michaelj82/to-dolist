@@ -1,6 +1,9 @@
 import { deleteSelf } from "./functions";
 import { projectList } from "./functions";
 import {adjustFormElements} from "./functions"
+import { useData } from "./functions";
+import {saveStorage} from './functions';
+let storageData = useData()
 
 //create from projectList
 export function makeAllProjects(list, container){
@@ -17,14 +20,15 @@ export function makeAllProjects(list, container){
 
         let expandButton = document.createElement('button');
         expandButton.innerHTML = 'Expand'
-        expandButton.onclick = function () {
-            if (project.expanded == true){
+        let toDoHolder = document.createElement('div')
 
-
+        function makeToDo(){
+            console.log('burh')
+            if (project.expanded == false){
 
                 for (let i=0; i < project.toDos.length; i++){
-                    let toDo = project.toDos[i];
                     let toDoHTML = document.createElement('div');
+                    let toDo = project.toDos[i];
                     toDoHTML.setAttribute('class', 'toDo');
                     
                     let nameHTML = document.createElement('div');
@@ -34,9 +38,9 @@ export function makeAllProjects(list, container){
                     let dueDateHTML = document.createElement('div');
                     dueDateHTML.textContent = toDo.duedate
                     toDoHTML.appendChild(dueDateHTML)
-    
+        
                     toDoHTML.style.backgroundColor = toDo.color
-    
+        
                     let checkbox = document.createElement('input');
                     checkbox.setAttribute('type', 'checkbox');
                     if (toDo.completed == false){
@@ -46,51 +50,56 @@ export function makeAllProjects(list, container){
                         nameHTML.innerHTML = toDo.name.strike()
                         checkbox.checked = true
                     }
-    
+        
                     checkbox.onclick = function() {
                         if (toDo.completed == false){
                             nameHTML.innerHTML = toDo.name.strike()
                             toDoHTML.appendChild(checkbox)
                             toDo.completed = true
+                            saveStorage(projectList)
                         }else if (toDo.completed == true){
                             nameHTML.innerHTML = toDo.name
                             toDoHTML.appendChild(checkbox)
                             toDo.completed = false
-    
-    
+                            saveStorage(projectList)
+        
+        
                         }
                     }
-    
-    
-    
+        
+        
+        
                     toDoHTML.appendChild(checkbox)
-    
-    
-                    projectHTML.appendChild(toDoHTML)
-
-                    project.expanded = false
-    
-    
-                }
-            }else{
-
-                //MICHAEL CURRENTLY THE LAST ISSUE BEFORE STYLING!!
-
-                if (project.toDos.length > 0){
-                    for (let i = 0; i < project.toDos.length; i++){
-                        projectHTML.removeChild(projectHTML.lastElementChild)
-                    }
+                    
+                    toDoHolder.appendChild(toDoHTML)
+        
+                    projectHTML.appendChild(toDoHolder)
+        
+                    project.expanded = true
                 }
                 
-                project.expanded = true
+                
+            }else{
+
+                toDoHolder.innerHTML = ''
+
+                
+                project.expanded = false
 
             }
 
-        };
+    
+    
+        }
 
-        // if (project.expanded == true){
-            
-        // }
+    
+
+        expandButton.onclick = function () {
+            makeToDo()
+        }
+
+        makeToDo()
+        
 
 
         let dueDate = document.createElement('div');
@@ -102,7 +111,7 @@ export function makeAllProjects(list, container){
         let deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete'
         deleteButton.onclick = function () {
-            deleteSelf(project, projectList, container)
+            deleteSelf(i, projectList, container)
         }
 
 

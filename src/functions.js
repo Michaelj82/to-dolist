@@ -6,8 +6,16 @@ import { toDo } from "./index";
 
 import { content } from "./index";
 
-export let projectList = [];
 
+let dataList = NaN
+
+if (localStorage.getItem('data') == null){
+    dataList = [];
+}else{
+    dataList = JSON.parse(localStorage.getItem('data'))
+}
+
+export let projectList = dataList
 
 export function adjustFormElements(formList, container){
 
@@ -28,7 +36,7 @@ export function adjustFormElements(formList, container){
     
     console.log(copyList)
     console.log(copyList.length)
-    if (copyList.length != 0){
+    if (copyList.length > 1){
         for(let i = 0; i < (copyList.length/3); i++){
             let newToDo = toDo(copyList[0], false, copyList[1], copyList[2])
             newProject.add(newToDo)
@@ -37,8 +45,11 @@ export function adjustFormElements(formList, container){
     }
 
     projectList.push(newProject)
+    console.log(newProject)
+    storagePush(newProject)
+    let storageData = useData()
 
-    makeAllProjects(projectList, container)
+    makeAllProjects(storageData, container)
 
 }
 
@@ -48,15 +59,53 @@ export function createSelf(project, container){
 
 
     projectList.push(project)
-    makeAllProjects(projectList, container)
+    storagePush(project)
+    let storageData = useData()
+    makeAllProjects(storageData, container)
 
 }
 
 //delete project function
-export function deleteSelf(project, list, container){
-    projectList = list.filter(item => item !== project)
-    makeAllProjects(projectList, container)
+export function deleteSelf(num, list, container){
+    list.splice(num, 1)
+    console.log(projectList)
+    saveStorage(projectList)
+    let storageData = useData()
+
+    makeAllProjects(storageData, container)
     
+}
+
+
+function storagePush(new_data){
+
+    if (localStorage.getItem('data') == null){
+        localStorage.setItem('data', '[]');
+    }
+
+    let old_data = JSON.parse(localStorage.getItem('data'))
+    old_data.push(new_data)
+
+    localStorage.setItem('data', JSON.stringify(old_data))
+
+
+}
+
+export function saveStorage(list){
+
+
+    localStorage.setItem('data', JSON.stringify(list))
+
+}
+
+
+
+export function useData(){
+    if (localStorage.getItem('data') != null){
+        let newData = JSON.parse(localStorage.getItem('data'))
+        return newData
+    }
+
 }
 
 

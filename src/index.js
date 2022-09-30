@@ -3,6 +3,8 @@ import { createSelf } from './functions';
 import { deleteSelf } from './functions';
 import { projectList } from './functions';
 import { createPopUp } from './dommanipulation';
+import { makeAllProjects } from './dommanipulation';
+import {useData} from './functions'
 
 
 const header = document.createElement('div');
@@ -22,7 +24,6 @@ newToDoButton.onclick = function(){
     newToDoButton.disabled = true
 }
 header.appendChild(newToDoButton)
-
 
 
 //composition and its functions below
@@ -92,35 +93,6 @@ export const toDo = (name, completed, color, duedate) =>{
 
 }
 
-
-
-
-
-
-
-
-let ProjectOne = project('Complete ToDolist Project', '9-20-2022', 'green', true, [], 'Here is the description');
-ProjectOne.create(content)
-
-let projectOne = toDo('start webpack', false, 'red', '9-24-2022')
-ProjectOne.add(projectOne)
-
-let projectTwo = toDo('make logic', false, 'yellow', '9-24-2022')
-ProjectOne.add(projectTwo)
-
-
-
-
-
-
-let ProjectTwo = project('Daily Goals', '9-20-2022', 'blue', true, [], 'Here is another description');
-ProjectTwo.create(content)
-
-let toDoOne = toDo('start coding', false, 'aqua', '9-24-2022')
-ProjectTwo.add(toDoOne)
-
-let toDoTwo = toDo('go to bed', false, 'orange', '9-24-2022')
-ProjectTwo.add(toDoTwo)
-
-
+let storageData = useData()
+makeAllProjects(storageData, content)
 
