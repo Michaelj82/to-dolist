@@ -4,8 +4,6 @@ import { makeAllProjects } from "./dommanipulation";
 import { project } from "./index";
 import { toDo } from "./index";
 
-import { content } from "./index";
-
 
 let dataList = NaN
 

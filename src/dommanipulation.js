@@ -1,14 +1,29 @@
 import { deleteSelf } from "./functions";
 import { projectList } from "./functions";
 import {adjustFormElements} from "./functions"
-import { useData } from "./functions";
 import {saveStorage} from './functions';
-let storageData = useData()
+import { allProjects } from "./index";
+import { sidebar } from "./index";
 
 //create from projectList
 export function makeAllProjects(list, container){
 
     container.innerHTML = ''
+
+    allProjects.innerHTML = ''
+    
+    for (let i = 0 ; i < projectList.length ; i++){
+        let project = projectList[i]
+        let name = document.createElement('li');
+        name.textContent = project.name
+        name.onclick = function(){
+            alert('bruhs')
+        }
+    
+        allProjects.appendChild(name)
+    
+    }
+    
 
 
     for (let i=0; i < list.length; i++){
@@ -189,11 +204,14 @@ export function makeAllProjects(list, container){
         projectHTML.appendChild(toDoHolder)
         
     
-    
         container.appendChild(projectHTML)
 
-    }
+        
 
+
+
+    }
+    
 
 }
 
