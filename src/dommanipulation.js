@@ -20,86 +20,150 @@ export function makeAllProjects(list, container){
 
         let expandButton = document.createElement('button');
         expandButton.innerHTML = 'Expand'
+
         let toDoHolder = document.createElement('div')
 
-        function makeToDo(){
-            console.log('burh')
-            if (project.expanded == false){
-
-                for (let i=0; i < project.toDos.length; i++){
-                    let toDoHTML = document.createElement('div');
-                    let toDo = project.toDos[i];
-                    toDoHTML.setAttribute('class', 'toDo');
-                    
-                    let nameHTML = document.createElement('div');
-                    nameHTML.textContent = toDo.name;
-                    toDoHTML.appendChild(nameHTML)
-                    
-                    let dueDateHTML = document.createElement('div');
-                    dueDateHTML.textContent = toDo.duedate
-                    toDoHTML.appendChild(dueDateHTML)
         
-                    toDoHTML.style.backgroundColor = toDo.color
-        
-                    let checkbox = document.createElement('input');
-                    checkbox.setAttribute('type', 'checkbox');
-                    if (toDo.completed == false){
-                        nameHTML.innerHTML = toDo.name
-                        checkbox.checked = false
-                    }else if (toDo.completed == true){
-                        nameHTML.innerHTML = toDo.name.strike()
-                        checkbox.checked = true
-                    }
-        
-                    checkbox.onclick = function() {
-                        if (toDo.completed == false){
-                            nameHTML.innerHTML = toDo.name.strike()
-                            toDoHTML.appendChild(checkbox)
-                            toDo.completed = true
-                            saveStorage(projectList)
-                        }else if (toDo.completed == true){
-                            nameHTML.innerHTML = toDo.name
-                            toDoHTML.appendChild(checkbox)
-                            toDo.completed = false
-                            saveStorage(projectList)
-        
-        
-                        }
-                    }
-        
-        
-        
-                    toDoHTML.appendChild(checkbox)
-                    
-                    toDoHolder.appendChild(toDoHTML)
-        
-                    projectHTML.appendChild(toDoHolder)
-        
-                    project.expanded = true
+        if (project.expanded == true){
+            for (let i=0; i < project.toDos.length; i++){
+                let toDoHTML = document.createElement('div');
+                let toDo = project.toDos[i];
+                toDoHTML.setAttribute('class', 'toDo');
+                
+                let nameHTML = document.createElement('div');
+                nameHTML.textContent = toDo.name;
+                toDoHTML.appendChild(nameHTML)
+                
+                let dueDateHTML = document.createElement('div');
+                dueDateHTML.textContent = toDo.duedate
+                toDoHTML.appendChild(dueDateHTML)
+    
+                toDoHTML.style.backgroundColor = toDo.color
+    
+                let checkbox = document.createElement('input');
+                checkbox.setAttribute('type', 'checkbox');
+                if (toDo.completed == false){
+                    nameHTML.innerHTML = toDo.name
+                    checkbox.checked = false
+                }else if (toDo.completed == true){
+                    nameHTML.innerHTML = toDo.name.strike()
+                    checkbox.checked = true
                 }
-                
-                
-            }else{
+    
+                checkbox.onclick = function() {
+                    if (toDo.completed == false){
+                        nameHTML.innerHTML = toDo.name.strike()
+                        toDoHTML.appendChild(checkbox)
+                        toDo.completed = true
+                        saveStorage(list)
+                    }else if (toDo.completed == true){
+                        nameHTML.innerHTML = toDo.name
+                        toDoHTML.appendChild(checkbox)
+                        toDo.completed = false
 
-                toDoHolder.innerHTML = ''
-
+                        saveStorage(list)
+    
+    
+                    }
+                }
+    
+    
+    
+                toDoHTML.appendChild(checkbox)
                 
-                project.expanded = false
+                toDoHolder.appendChild(toDoHTML)
 
+
+    
+    
             }
+            
+            
+        }else{
 
-    
-    
+            toDoHolder.innerHTML = ''
+
+
         }
 
-    
+
 
         expandButton.onclick = function () {
-            makeToDo()
+            if (project.toDos.length >= 1){
+                if (project.expanded == false){
+                    console.log('open')
+                    for (let i=0; i < project.toDos.length; i++){
+                        let toDoHTML = document.createElement('div');
+                        let toDo = project.toDos[i];
+                        toDoHTML.setAttribute('class', 'toDo');
+                        
+                        let nameHTML = document.createElement('div');
+                        nameHTML.textContent = toDo.name;
+                        toDoHTML.appendChild(nameHTML)
+                        
+                        let dueDateHTML = document.createElement('div');
+                        dueDateHTML.textContent = toDo.duedate
+                        toDoHTML.appendChild(dueDateHTML)
+            
+                        toDoHTML.style.backgroundColor = toDo.color
+            
+                        let checkbox = document.createElement('input');
+                        checkbox.setAttribute('type', 'checkbox');
+                        if (toDo.completed == false){
+                            nameHTML.innerHTML = toDo.name
+                            checkbox.checked = false
+                        }else if (toDo.completed == true){
+                            nameHTML.innerHTML = toDo.name.strike()
+                            checkbox.checked = true
+                        }
+            
+                        checkbox.onclick = function() {
+                            if (toDo.completed == false){
+                                nameHTML.innerHTML = toDo.name.strike()
+                                toDoHTML.appendChild(checkbox)
+                                toDo.completed = true
+                                saveStorage(list)
+                            }else if (toDo.completed == true){
+                                nameHTML.innerHTML = toDo.name
+                                toDoHTML.appendChild(checkbox)
+                                toDo.completed = false
+    
+                                saveStorage(list)
+            
+            
+                            }
+                        }
+            
+            
+            
+                        toDoHTML.appendChild(checkbox)
+                        
+                        toDoHolder.appendChild(toDoHTML)
+            
+            
+                        project.expanded = true
+                        saveStorage(list)
+
+                    }
+                    
+                    
+                }else{
+    
+                    toDoHolder.innerHTML = ''
+    
+                    
+                    project.expanded = false
+                    saveStorage(list)
+
+    
+                }
+            }else{
+                console.log('none')
+            }
+
+        saveStorage(list)
         }
 
-        makeToDo()
-        
 
 
         let dueDate = document.createElement('div');
@@ -122,6 +186,7 @@ export function makeAllProjects(list, container){
         projectHTML.appendChild(dueDate)
         projectHTML.appendChild(expandButton)
 
+        projectHTML.appendChild(toDoHolder)
         
     
     

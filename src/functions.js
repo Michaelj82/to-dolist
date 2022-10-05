@@ -28,7 +28,7 @@ export function adjustFormElements(formList, container){
         }
     }
 
-    let newProject = project(DOMList[0], DOMList[1], DOMList[2], true, [], DOMList[3])
+    let newProject = project(DOMList[0], DOMList[1], DOMList[2], false, [], DOMList[3])
 
     let copyList = [...DOMList]
     copyList.splice(0,4)
@@ -93,8 +93,12 @@ function storagePush(new_data){
 
 export function saveStorage(list){
 
+    console.log(localStorage.getItem('data'))
 
     localStorage.setItem('data', JSON.stringify(list))
+
+    console.log(localStorage.getItem('data'))
+
 
 }
 
