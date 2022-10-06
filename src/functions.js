@@ -91,11 +91,9 @@ function storagePush(new_data){
 
 export function saveStorage(list){
 
-    console.log(localStorage.getItem('data'))
 
     localStorage.setItem('data', JSON.stringify(list))
 
-    console.log(localStorage.getItem('data'))
 
 
 }
@@ -109,5 +107,7 @@ export function useData(){
     }
 
 }
+
+
 
 

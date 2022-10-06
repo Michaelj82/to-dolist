@@ -1,5 +1,5 @@
 html,body{
-    background-color: gray;
+    background-color: #7e6f9e;
     margin: 0;
     height: 100vh;
     width: 100vw;
@@ -12,37 +12,55 @@ html,body{
 
 #sidebar{
     grid-area: span 4 / span 1;
-    border: solid;
-    border-color: blueviolet;
+    overflow-y: scroll;
+
+    background-color: #cbe9f2;
+    margin-left: 5px;
+    margin-right: 5px;
+
+    padding: 10px;
+}
+
+#sidebar > #sortbysidebarUL{
+    display: flex;
+    flex-direction: column;
+
+    justify-content: space-around;
+    align-items: flex-start;
+
+    list-style-type: none;
+    padding: 0;
+}
+#sidebar > #sortbysidebarUL:hover{
+    cursor: pointer;
+}
+
+#sidebar > #projectsidebarUL{
+    padding: 0;
+}
+#sidebar > #projectsidebarUL > li{
+    cursor: pointer;
+    margin: 3px;
+
+}
+
+#sidebar > .ul-heading{
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: #cc99ff;
+    padding: 2px;
+    font-size: 1rem;
+    border-radius: 10px;
+
+    box-shadow: 1.0px 2.0px 2.0px hsl(0deg 0% 0% / 0.5);
+
 }
 
 #createnew{
-    border: solid;
-    border-color: aqua;
-}
 
-#content{
-    grid-area:  span 4 / span 4;
-    border: solid;
-    overflow-y:scroll;
-}
-
-.project{
-    margin: 15px;
-    padding: 15px;
-}
-
-.toDo{
-    background-color: aqua;
-    padding: 10px;
-
-}
-
-
-#header{
-    grid-area: span 1 / span 5;
-    border: solid;
-    border-color: red;
 }
 
 #popup{
@@ -59,4 +77,81 @@ html,body{
 }
 
 
+
+
+
+#content{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+
+
+    grid-area:  span 4 / span 4;
+    overflow-y:scroll;
+
+    background-color: #cbe9f2;
+
+    margin-left: 5px;
+
+}
+
+.project{
+    margin: 15px;
+    padding: 15px;
+
+    height: 300px;
+
+    overflow-y: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+.project::-webkit-scrollbar{
+    width: 0;
+    height: 0;
+}
+
+
+
+.toDo{
+    background-color: aqua;
+    padding: 10px;
+
+    
+
+}
+
+
+#header{
+
+    display: flex;
+    justify-content: space-around;
+
+    grid-area: span 1 / span 5;
+    /* border: solid; */
+    box-shadow: 1.0px 2.0px 2.0px hsl(0deg 0% 0% / 0.5);
+
+    background-color: #cc99ff;
+    z-index: 105;
+
+    padding: 10px;
+    margin-bottom: 5px;
+}
+
+#header > * {
+    flex:1;
+    flex-basis: 0;
+}
+
+#leftsidetitle{
+
+
+}
+
+#leftsidetitle > .title{
+    font-size: 2rem;
+}
+
+#rightsidetitle{
+    margin: 10px;
+    font-size: 0.75rem;
+}
 

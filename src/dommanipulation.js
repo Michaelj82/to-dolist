@@ -2,8 +2,108 @@ import { deleteSelf } from "./functions";
 import { projectList } from "./functions";
 import {adjustFormElements} from "./functions"
 import {saveStorage} from './functions';
-import { allProjects } from "./index";
-import { sidebar } from "./index";
+import { useData } from "./functions";
+
+let storageData = useData()
+
+export const header = document.getElementById('header');
+
+export const sidebar =  document.getElementById('sidebar')
+
+export const content = document.getElementById('content');
+
+
+let leftsidetitle = document.createElement('div')
+leftsidetitle.setAttribute('id', 'leftsidetitle');
+let title = document.createElement('div');
+title.setAttribute('class', 'title')
+title.textContent = 'To-Do List Website'
+
+let subtitle = document.createElement('div');
+subtitle.setAttribute('class', 'subtitle');
+subtitle.textContent = 'A website made for The Odin Project! Keep track of your To Dos or Projects here!'
+
+leftsidetitle.appendChild(title)
+leftsidetitle.appendChild(subtitle)
+
+let rightsidetitle = document.createElement('div')
+rightsidetitle.setAttribute('id', 'rightsidetitle')
+rightsidetitle.textContent = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+
+header.appendChild(leftsidetitle)
+header.appendChild(rightsidetitle)
+
+
+const newToDoButton = document.createElement('button');
+newToDoButton.setAttribute('id', 'createnew')
+newToDoButton.innerHTML = 'Make New Project'
+newToDoButton.onclick = function(){
+    createPopUp(content, newToDoButton)
+    newToDoButton.disabled = true
+}
+
+let sortbyHeading = document.createElement('h3');
+sortbyHeading.setAttribute('class', 'ul-heading')
+sortbyHeading.innerHTML = 'Sort by:'
+
+let sortBy = document.createElement('ul');
+sortBy.setAttribute('id', 'sortbysidebarUL')
+
+let created = document.createElement('li');
+created.setAttribute('class', 'sortList')
+created.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-plus"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>' + 'Created'
+created.onclick = function(){
+    makeAllProjects(storageData, content)
+}
+sortBy.appendChild(created)
+
+let upcoming = document.createElement('li');
+upcoming.setAttribute('class', 'sortList')
+upcoming.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>' + 'Upcoming'
+upcoming.onclick = function(){
+    let copied = [...projectList]
+    copied.sort(function compare(a, b){
+        let dateA = new Date(a.duedate)
+        let dateB = new Date(b.duedate)
+        return dateA - dateB
+    })
+    makeAllProjects(copied, content)
+}
+sortBy.appendChild(upcoming)
+
+let alphabetical = document.createElement('li');
+alphabetical.setAttribute('class', 'sortList')
+alphabetical.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-box"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>' + 'Alphabet'
+alphabetical.onclick = function(){
+    let alphabetical = [...projectList]
+    alphabetical.sort((a, b) => a.name.localeCompare(b.name))
+
+    makeAllProjects(alphabetical, content)
+
+}
+sortBy.appendChild(alphabetical)
+
+let allprojectsHeader = document.createElement('h3')
+allprojectsHeader.setAttribute('class', 'ul-heading')
+allprojectsHeader.textContent = 'All projects'
+
+export let allProjects = document.createElement('ul');
+allProjects.setAttribute('id', 'projectsidebarUL')
+
+
+
+
+sidebar.appendChild(newToDoButton)
+
+sidebar.appendChild(sortbyHeading)
+sidebar.appendChild(sortBy)
+
+sidebar.appendChild(allprojectsHeader)
+sidebar.appendChild(allProjects)
+
+
+
+
 
 //create from projectList
 export function makeAllProjects(list, container){
@@ -11,13 +111,20 @@ export function makeAllProjects(list, container){
     container.innerHTML = ''
 
     allProjects.innerHTML = ''
+
+    let resetButton = document.createElement('li');
+    resetButton.textContent = "Show All Projects"
+    resetButton.onclick = function(){
+        makeAllProjects(projectList, container)
+    }
+    allProjects.appendChild(resetButton)
     
     for (let i = 0 ; i < projectList.length ; i++){
         let project = projectList[i]
         let name = document.createElement('li');
         name.textContent = project.name
         name.onclick = function(){
-            alert('bruhs')
+            makeAllProjects([project], container)
         }
     
         allProjects.appendChild(name)
