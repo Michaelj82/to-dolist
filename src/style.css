@@ -7,12 +7,13 @@ html,body{
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-template-rows: repeat(5, 1fr);
-    overflow:hidden
 }
 
 #sidebar{
     grid-area: span 4 / span 1;
     overflow-y: scroll;
+    min-width: 100px;
+    
 
     background-color: #cbe9f2;
     margin-left: 5px;
@@ -33,6 +34,11 @@ html,body{
 }
 #sidebar > #sortbysidebarUL:hover{
     cursor: pointer;
+}
+
+.sortList{
+    display: flex;
+    align-items: center;
 }
 
 #sidebar > #projectsidebarUL{
@@ -59,24 +65,57 @@ html,body{
 
 }
 
-#createnew{
-
-}
 
 #popup{
-    background-color: aqua;
+    background-color: #7e6f9e;
     width: 300px;
     height: 300px;
+    padding: 10px;
+    border-radius: 10px;
     z-index: 102;
+
+
     position: absolute;
-    /* display: inline-block; */
     left: 50%;
     top: 50%;
     margin-right: -50%;
     transform: translate(-50%, -50%);
+
+    z-index: 200;
+
+    overflow-y: scroll;
+
+    display: flex;
+    flex-direction: column;
+
+}
+
+#popup > #removeButton{
+    width: 25%;
+    align-self: flex-end;
+    border: solid;
+    margin-bottom: 5px;
+}
+
+#popup > #projectForm{
+    display: flex;
+    flex-direction: column;
+    background-color: #cc99ff;
+
+    border-radius: 5px;
+
+
+}
+
+.projectInfo{
+    margin: 3px;
 }
 
 
+#projectForm > #newProjectToDo{
+    width: 33%;
+    align-self: flex-start;
+}
 
 
 
@@ -89,7 +128,7 @@ html,body{
     overflow-y:scroll;
 
     background-color: #cbe9f2;
-
+    min-width: 500px;
     margin-left: 5px;
 
 }
@@ -99,15 +138,64 @@ html,body{
     padding: 15px;
 
     height: 300px;
+    width: 150px;
+    position: relative;
 
     overflow-y: scroll;
     scrollbar-width: none;
     -ms-overflow-style: none;
+
+    border-radius: 10px;
+
+
+    display: flex;
+    flex-direction: column;
+
 }
 .project::-webkit-scrollbar{
     width: 0;
     height: 0;
 }
+
+.project > .projectInfoHolder{
+    background-color: white;
+    margin-top: 5px;
+    padding: 5px;
+
+    border-radius: 5px;
+}
+
+.project > .projectDelete{
+    width: 40%;
+
+
+    font-size: minmax(1vw, 1rem);
+    border: solid;
+    background-color: red;
+    border-radius: 5px;
+
+    align-self: flex-end;
+}
+
+.projectInfoHolder > .projectName{
+    
+    align-self: center;
+    
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.projectInfoHolder > .projectDescription{
+    margin-top: 5px;
+    font-size: .9rem;
+}
+
+.projectInfoHolder > .projectDueDate{
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+
 
 
 
@@ -115,8 +203,32 @@ html,body{
     background-color: aqua;
     padding: 10px;
 
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+
+    margin: 2.5px;
+
+
     
 
+}
+
+.toDo > .toDoName{
+    font-size: 1.1rem;
+    grid-area: span 1 / span 1;
+}
+
+.toDo > .toDoDueDate{
+    font-size: 0.8rem;
+    grid-area: span 1 / span 1;
+
+
+}
+
+.toDo > .toDoCheckbox{
+    grid-area: span 1 / span 1;
+    
 }
 
 
@@ -141,10 +253,6 @@ html,body{
     flex-basis: 0;
 }
 
-#leftsidetitle{
-
-
-}
 
 #leftsidetitle > .title{
     font-size: 2rem;

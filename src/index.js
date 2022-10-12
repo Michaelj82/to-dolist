@@ -32,6 +32,7 @@ const deleteable = (state) => ({
 
 //factory function for creating containers
 
+//project object
 export const project = (name, duedate, color, expanded, toDos, description) => {
     let state = {
         toDos: toDos,
@@ -51,14 +52,13 @@ export const project = (name, duedate, color, expanded, toDos, description) => {
         addable(state),
         deleteable(state),
 
-        //what it can do here
-
 
 
     )
 
 }
 
+// to do object
 export const toDo = (name, completed, color, duedate) =>{
 
     let state = {
@@ -77,6 +77,7 @@ export const toDo = (name, completed, color, duedate) =>{
 
 }
 
+//making projects appear on screen
 let storageData = useData()
 makeAllProjects(storageData, content)
 
