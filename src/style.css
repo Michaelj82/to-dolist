@@ -1,0 +1,265 @@
+html,body{
+    background-color: #7e6f9e;
+    margin: 0;
+    height: 100vh;
+    width: 100vw;
+    
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+}
+
+#sidebar{
+    grid-area: span 4 / span 1;
+    overflow-y: scroll;
+    min-width: 100px;
+    
+
+    background-color: #cbe9f2;
+    margin-left: 5px;
+    margin-right: 5px;
+
+    padding: 10px;
+}
+
+#sidebar > #sortbysidebarUL{
+    display: flex;
+    flex-direction: column;
+
+    justify-content: space-around;
+    align-items: flex-start;
+
+    list-style-type: none;
+    padding: 0;
+}
+#sidebar > #sortbysidebarUL:hover{
+    cursor: pointer;
+}
+
+.sortList{
+    display: flex;
+    align-items: center;
+}
+
+#sidebar > #projectsidebarUL{
+    padding: 0;
+}
+#sidebar > #projectsidebarUL > li{
+    cursor: pointer;
+    margin: 3px;
+
+}
+
+#sidebar > .ul-heading{
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: #cc99ff;
+    padding: 2px;
+    font-size: 1rem;
+    border-radius: 10px;
+
+    box-shadow: 1.0px 2.0px 2.0px hsl(0deg 0% 0% / 0.5);
+
+}
+
+
+#popup{
+    background-color: #7e6f9e;
+    width: 300px;
+    height: 300px;
+    padding: 10px;
+    border-radius: 10px;
+    z-index: 102;
+
+
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+
+    z-index: 200;
+
+    overflow-y: scroll;
+
+    display: flex;
+    flex-direction: column;
+
+}
+
+#popup > #removeButton{
+    width: 25%;
+    align-self: flex-end;
+    border: solid;
+    margin-bottom: 5px;
+}
+
+#popup > #projectForm{
+    display: flex;
+    flex-direction: column;
+    background-color: #cc99ff;
+
+    border-radius: 5px;
+
+
+}
+
+.projectInfo{
+    margin: 3px;
+}
+
+
+#projectForm > #newProjectToDo{
+    width: 33%;
+    align-self: flex-start;
+}
+
+
+
+#content{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+
+
+    grid-area:  span 4 / span 4;
+    overflow-y:scroll;
+
+    background-color: #cbe9f2;
+    min-width: 500px;
+    margin-left: 5px;
+
+}
+
+.project{
+    margin: 15px;
+    padding: 15px;
+
+    height: 300px;
+    width: 150px;
+    position: relative;
+
+    overflow-y: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    border-radius: 10px;
+
+
+    display: flex;
+    flex-direction: column;
+
+}
+.project::-webkit-scrollbar{
+    width: 0;
+    height: 0;
+}
+
+.project > .projectInfoHolder{
+    background-color: white;
+    margin-top: 5px;
+    padding: 5px;
+
+    border-radius: 5px;
+}
+
+.project > .projectDelete{
+    width: 40%;
+
+
+    font-size: minmax(1vw, 1rem);
+    border: solid;
+    background-color: red;
+    border-radius: 5px;
+
+    align-self: flex-end;
+}
+
+.projectInfoHolder > .projectName{
+    
+    align-self: center;
+    
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.projectInfoHolder > .projectDescription{
+    margin-top: 5px;
+    font-size: .9rem;
+}
+
+.projectInfoHolder > .projectDueDate{
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+
+
+
+
+.toDo{
+    background-color: aqua;
+    padding: 10px;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+
+    margin: 2.5px;
+
+
+    
+
+}
+
+.toDo > .toDoName{
+    font-size: 1.1rem;
+    grid-area: span 1 / span 1;
+}
+
+.toDo > .toDoDueDate{
+    font-size: 0.8rem;
+    grid-area: span 1 / span 1;
+
+
+}
+
+.toDo > .toDoCheckbox{
+    grid-area: span 1 / span 1;
+    
+}
+
+
+#header{
+
+    display: flex;
+    justify-content: space-around;
+
+    grid-area: span 1 / span 5;
+    /* border: solid; */
+    box-shadow: 1.0px 2.0px 2.0px hsl(0deg 0% 0% / 0.5);
+
+    background-color: #cc99ff;
+    z-index: 105;
+
+    padding: 10px;
+    margin-bottom: 5px;
+}
+
+#header > * {
+    flex:1;
+    flex-basis: 0;
+}
+
+
+#leftsidetitle > .title{
+    font-size: 2rem;
+}
+
+#rightsidetitle{
+    margin: 10px;
+    font-size: 0.75rem;
+}
+
