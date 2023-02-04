@@ -13,8 +13,7 @@ export const content = document.getElementById('content');
 
 //login box 
 let loginMaker = document.createElement('div');
-
-
+let signIn = document.createElement('button')
 
 
 //create left side of header
