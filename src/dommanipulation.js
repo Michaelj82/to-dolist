@@ -11,11 +11,40 @@ export const sidebar =  document.getElementById('sidebar')
 
 export const content = document.getElementById('content');
 
-//login box 
-let loginMaker = document.createElement('div');
-let signIn = document.createElement('button')
-//test
-//test
+//login in part
+function loginEnable(){
+    //login box 
+    let loginMaker = document.createElement('div');
+    loginMaker.setAttribute('id', 'login-box');
+
+    let signUpBox = document.createElement('div');
+    let signIn = document.createElement('button')
+    signIn.textContent = 'Sign up'
+    let emailInput = document.createElement('input')
+    emailInput.setAttribute('id', 'email')
+    emailInput.type = 'email'
+    let passwordInput = document.createElement('input')
+    passwordInput.setAttribute('id', 'password')
+
+
+
+    signUpBox.appendChild(signIn)
+    signUpBox.appendChild(emailInput)
+    signUpBox.appendChild(passwordInput)
+
+    let removeLogin = document.createElement('button')
+    removeLogin.onclick = function(){
+        loginMaker.innerHTML = ''
+    }
+    loginMaker.appendChild(signUpBox)
+}
+
+const loginPrompt = document.createElement('button')
+loginPrompt.onclick = function(){
+    loginEnable()
+}
+
+header.appendChild(loginPrompt)
 //create left side of header
 let leftsidetitle = document.createElement('div')
 leftsidetitle.setAttribute('id', 'leftsidetitle');
