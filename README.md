@@ -1,5 +1,6 @@
-# to-dolist
+# To-dolist App
+Made for the Odin Project
 
 https://michaelj82.github.io/to-dolist/
 
-no longer working on firebase for this, just going ahead to waldo project
+Pure JavaScript
